@@ -9,7 +9,7 @@ from landlab import RasterModelGrid
 from landlab.components import SoilInfiltrationGreenAmpt
 import time
 import copy
-
+import sys
 
 # ks_vals_west = 1*10**-6, 3*10**-6, ## m s-1
 # ks_vals_east = 9*10**-7, 3*10**-6,
@@ -32,8 +32,8 @@ starting_precip_mmhr_west = np.concatenate((np.ones((1,10))*30,np.ones((1,10))*7
 starting_precip_ms = starting_precip_mmhr_west * (2.777778 * 10 ** -7)  ## to m/s
 
 ## Load topographic data
-profile = pd.read_csv('D:\Yuval\Phd\SlopeTalusRill_modeling\Profiles\west.csv', header=None)
-#profile = pd.read_csv('D:\Yuval\Phd\SlopeTalusRill_modeling\Profiles\east.csv', header=None)
+profile = pd.read_csv(sys.path[0] + '\west.csv', header=None)
+#profile = pd.read_csv(sys.path[0]+ '\east.csv', header=None)
 
 ## Create model grid
 ncols = 3
@@ -128,8 +128,3 @@ while elapsed_time < model_run_time:  # each run
 
 
 critical_gs = max_stress / ((densitySSL - densitywater) * gravity * criticalStress)
-test = mg.node_vector_to_raster(critical_gs)
-self.mg = mg
-self.maxstress = max_stress
-self.gs_mat = mg.node_vector_to_raster(self.critical_gs)
-self.water_depth = waterdepth_at_outlet
